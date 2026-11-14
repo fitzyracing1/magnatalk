@@ -1,0 +1,6 @@
+# GPU-accelerated FFT / filtering pipeline; bandwidth-bound, modest memory.
+name: radar-fft-pipeline
+task: signal_processing
+vram_gb: 16
+budget_per_hour_usd: 1.20
+max_runtime_hours: 4
