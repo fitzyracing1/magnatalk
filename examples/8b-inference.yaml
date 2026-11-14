@@ -1,0 +1,6 @@
+# Serve an 8B chat model, cheaply.
+name: llama-8b-chat-serving
+task: inference
+model_params_b: 8
+precision: fp16
+budget_per_hour_usd: 1.50

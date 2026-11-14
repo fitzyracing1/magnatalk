@@ -1,0 +1,7 @@
+# Parameter-efficient fine-tune of a 13B model, capped at $30 for the job.
+name: 13b-lora-finetune
+task: fine_tune
+model_params_b: 13
+precision: fp16
+budget_per_job_usd: 30
+max_runtime_hours: 12

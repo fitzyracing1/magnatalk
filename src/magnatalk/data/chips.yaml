@@ -1,0 +1,222 @@
+# magnatalk chip catalog
+#
+# To add a new chip: append an entry under `chips:` following the same shape,
+# then run `magnatalk validate`.
+#
+# Rules enforced by `magnatalk validate`:
+#   - every chip needs: id (unique, kebab-case), name, vendor, memory_gb,
+#     memory_bandwidth_gbps, supported_precisions, spec_source
+#   - throughput fields (fp16_tflops, bf16_tflops, fp8_tflops) are DENSE
+#     tensor throughput; use null when the chip/vendor does not publish one
+#   - every offer with a non-null price_per_hour_usd MUST carry price_date
+#     (YYYY-MM-DD) and source (the public pricing page URL).
+#     Never put an invented/estimated number in price_per_hour_usd.
+#   - a chip with no current rental offers keeps `offers: []` (it can still
+#     be listed and compared on specs, it just cannot be picked).
+
+schema_version: 1
+
+chips:
+  - id: nvidia-h100-sxm
+    name: NVIDIA H100 SXM
+    vendor: nvidia
+    memory_gb: 80
+    memory_bandwidth_gbps: 3350
+    fp16_tflops: 989.4
+    bf16_tflops: 989.4
+    fp8_tflops: 1978.9
+    supported_precisions: [fp32, fp16, bf16, fp8, int8, int4]
+    spec_source: "https://www.nvidia.com/en-us/data-center/h100/"
+    notes: "Dense Tensor Core throughput; NVIDIA datasheets list 2x these numbers 'with sparsity'."
+    offers:
+      - provider: runpod
+        price_per_hour_usd: 4.39
+        price_date: "2026-11-14"
+        source: "https://www.runpod.io/pricing"
+        notes: "Secure Cloud on-demand; Community Cloud from $2.69/hr."
+      - provider: modal
+        price_per_hour_usd: 3.9492
+        price_date: "2026-11-14"
+        source: "https://modal.com/pricing"
+        notes: "Listed as 'H100 SXM5' at $0.001097/sec; converted to per-hour."
+      - provider: lambda
+        price_per_hour_usd: 4.89
+        price_date: "2026-11-14"
+        source: "https://lambda.ai/service/gpu-cloud"
+        notes: "1x H100 SXM on-demand; list price shown as effective 2026-11-16."
+
+  - id: nvidia-h200-sxm
+    name: NVIDIA H200 SXM
+    vendor: nvidia
+    memory_gb: 141
+    memory_bandwidth_gbps: 4800
+    fp16_tflops: 989.4
+    bf16_tflops: 989.4
+    fp8_tflops: 1978.9
+    supported_precisions: [fp32, fp16, bf16, fp8, int8, int4]
+    spec_source: "https://www.nvidia.com/en-us/data-center/h200/"
+    notes: "Same compute as H100; more and faster HBM3e."
+    offers:
+      - provider: runpod
+        price_per_hour_usd: 5.29
+        price_date: "2026-11-14"
+        source: "https://www.runpod.io/pricing"
+        notes: "Secure Cloud on-demand."
+      - provider: modal
+        price_per_hour_usd: 4.5396
+        price_date: "2026-11-14"
+        source: "https://modal.com/pricing"
+        notes: "Listed as 'H200 SXM' at $0.001261/sec; converted to per-hour."
+
+  - id: nvidia-b200
+    name: NVIDIA B200
+    vendor: nvidia
+    memory_gb: 180
+    memory_bandwidth_gbps: 7700
+    fp16_tflops: 2250.0
+    bf16_tflops: 2250.0
+    fp8_tflops: 4500.0
+    supported_precisions: [fp32, fp16, bf16, fp8, fp4, int8, int4]
+    spec_source: "https://www.nvidia.com/en-us/data-center/hgx/"
+    notes: "HGX B200 per-GPU figures (dense); providers expose 180 GB HBM3e per GPU."
+    offers:
+      - provider: runpod
+        price_per_hour_usd: 7.99
+        price_date: "2026-11-14"
+        source: "https://www.runpod.io/pricing"
+        notes: "Secure Cloud on-demand."
+      - provider: modal
+        price_per_hour_usd: 6.2496
+        price_date: "2026-11-14"
+        source: "https://modal.com/pricing"
+        notes: "Listed at $0.001736/sec; converted to per-hour."
+      - provider: lambda
+        price_per_hour_usd: 7.99
+        price_date: "2026-11-14"
+        source: "https://lambda.ai/service/gpu-cloud"
+        notes: "1x B200 SXM6 on-demand; list price shown as effective 2026-11-16."
+
+  - id: nvidia-a100-80gb-sxm
+    name: NVIDIA A100 80GB SXM
+    vendor: nvidia
+    memory_gb: 80
+    memory_bandwidth_gbps: 2039
+    fp16_tflops: 312.0
+    bf16_tflops: 312.0
+    fp8_tflops: null
+    supported_precisions: [fp32, fp16, bf16, int8, int4]
+    spec_source: "https://www.nvidia.com/en-us/data-center/a100/"
+    notes: "No FP8 support (pre-Hopper)."
+    offers:
+      - provider: runpod
+        price_per_hour_usd: 2.19
+        price_date: "2026-11-14"
+        source: "https://www.runpod.io/pricing"
+        notes: "A100 SXM, Secure Cloud; A100 PCIe at $2.09/hr."
+      - provider: modal
+        price_per_hour_usd: 2.4984
+        price_date: "2026-11-14"
+        source: "https://modal.com/pricing"
+        notes: "Listed as 'A100, 80 GB' at $0.000694/sec; converted to per-hour."
+      - provider: lambda
+        price_per_hour_usd: 3.19
+        price_date: "2026-11-14"
+        source: "https://lambda.ai/service/gpu-cloud"
+        notes: "Per-GPU rate on 8x HGX A100 80GB; 1x instances are the 40 GB variant ($1.99/hr)."
+
+  - id: nvidia-l40s
+    name: NVIDIA L40S
+    vendor: nvidia
+    memory_gb: 48
+    memory_bandwidth_gbps: 864
+    fp16_tflops: 181.05
+    bf16_tflops: 181.05
+    fp8_tflops: 366.0
+    supported_precisions: [fp32, fp16, bf16, fp8, int8, int4]
+    spec_source: "https://www.nvidia.com/en-us/data-center/l40s/"
+    notes: "Dense figures; datasheet headline numbers are 'with sparsity' (2x)."
+    offers:
+      - provider: runpod
+        price_per_hour_usd: 1.09
+        price_date: "2026-11-14"
+        source: "https://www.runpod.io/pricing"
+        notes: "Secure Cloud on-demand."
+      - provider: modal
+        price_per_hour_usd: 1.9512
+        price_date: "2026-11-14"
+        source: "https://modal.com/pricing"
+        notes: "Listed at $0.000542/sec; converted to per-hour."
+
+  - id: nvidia-a10g
+    name: NVIDIA A10G
+    vendor: nvidia
+    memory_gb: 24
+    memory_bandwidth_gbps: 600
+    fp16_tflops: 70.0
+    bf16_tflops: 70.0
+    fp8_tflops: null
+    supported_precisions: [fp32, fp16, bf16, int8, int4]
+    spec_source: "https://www.nvidia.com/en-us/data-center/products/a10-gpu/"
+    notes: >
+      A10G is the cloud variant of the A10; Modal and Lambda list it as 'A10'.
+      Throughput per NVIDIA A10G product brief (70 TFLOPS dense FP16/BF16).
+    offers:
+      - provider: modal
+        price_per_hour_usd: 1.1016
+        price_date: "2026-11-14"
+        source: "https://modal.com/pricing"
+        notes: "Listed as 'A10' at $0.000306/sec; converted to per-hour."
+      - provider: lambda
+        price_per_hour_usd: 1.29
+        price_date: "2026-11-14"
+        source: "https://lambda.ai/service/gpu-cloud"
+        notes: "Listed as '1x NVIDIA A10'; list price shown as effective 2026-11-16."
+
+  - id: nvidia-rtx-4090
+    name: NVIDIA GeForce RTX 4090
+    vendor: nvidia
+    memory_gb: 24
+    memory_bandwidth_gbps: 1008
+    fp16_tflops: 165.2
+    bf16_tflops: 165.2
+    fp8_tflops: 330.3
+    supported_precisions: [fp32, fp16, bf16, fp8, int8, int4]
+    spec_source: "https://images.nvidia.com/aem-dam/Solutions/geforce/ada/nvidia-ada-gpu-architecture.pdf"
+    notes: "Consumer Ada card; dense Tensor Core throughput from the Ada architecture whitepaper."
+    offers:
+      - provider: runpod
+        price_per_hour_usd: 0.89
+        price_date: "2026-11-14"
+        source: "https://www.runpod.io/pricing"
+        notes: "Secure Cloud on-demand; not offered by Modal or Lambda."
+
+  - id: amd-mi300x
+    name: AMD Instinct MI300X
+    vendor: amd
+    memory_gb: 192
+    memory_bandwidth_gbps: 5300
+    fp16_tflops: 1307.4
+    bf16_tflops: 1307.4
+    fp8_tflops: 2614.9
+    supported_precisions: [fp32, fp16, bf16, fp8, int8]
+    spec_source: "https://www.amd.com/en/products/accelerators/instinct/mi300/mi300x.html"
+    notes: >
+      Largest single-device HBM in this catalog (192 GB). Not listed on the public
+      pricing pages of RunPod, Modal, or Lambda as of 2026-11-14, so it currently has
+      no offers and cannot be picked; add an offer when a provider publishes a price.
+    offers: []
+
+  - id: google-tpu-v5e
+    name: Google TPU v5e
+    vendor: google
+    memory_gb: 16
+    memory_bandwidth_gbps: 819
+    fp16_tflops: null
+    bf16_tflops: 197.0
+    fp8_tflops: null
+    supported_precisions: [bf16, int8]
+    spec_source: "https://cloud.google.com/tpu/docs/v5e"
+    notes: >
+      Per-chip figures. Only rentable via Google Cloud, which is not one of the
+      providers magnatalk ships adapters for, so it has no offers in v0.1.
+    offers: []

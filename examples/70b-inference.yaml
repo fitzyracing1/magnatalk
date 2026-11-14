@@ -1,0 +1,7 @@
+# Serve a 70B model at full fp16 on a single accelerator.
+# ~168 GB estimated VRAM: only the biggest-memory chips qualify.
+name: llama-70b-serving
+task: inference
+model_params_b: 70
+precision: fp16
+max_runtime_hours: 24
